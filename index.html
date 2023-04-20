@@ -4,33 +4,226 @@
   <meta charset="utf-8">
   <title>te amo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
   <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
-  <link rel="stylesheet" href="style.css">
   <meta name="theme-color" content="#101014">
-  <script
-    src="https://kit.fontawesome.com/5daa8eb347.js"
-    crossorigin="anonymous"
-  ></script>
+  <script src="https://kit.fontawesome.com/5daa8eb347.js" crossorigin="anonymous"></script>
+  <style type="text/css">
+    body {
+      margin: 0;
+      height: 100svh;
+      color: rgba(255, 255, 255, 0.87);
+      background-color: #151c37;
+    }
+    body, input {
+      font-family: 'Poppins', Arial, Helvetica, sans-serif;
+    }
+    strong {
+      text-decoration: underline;
+    }
+    .page-background {
+      position: fixed;
+      height: 100vh;
+      width: 100vw;
+      z-index: -1;
+      filter: blur(60px);
+      background-image:
+        radial-gradient(at 40% 6%, hsla(296,30%,28%,1) 0px, transparent 50%),
+        radial-gradient(at 6% 98%, hsla(124,12%,48%,1) 0px, transparent 50%),
+        radial-gradient(at 80% 49%, hsla(229,44%,15%,1) 0px, transparent 50%),
+        radial-gradient(at 87% 91%, hsla(242,100%,70%,1) 0px, transparent 50%),
+        radial-gradient(at 0% 0%, hsla(229,44%,15%,1) 0px, transparent 50%);
+    }
+    .page-container {
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 20px 30px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .top-slot {
+      flex-grow: 1;
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .top-slot::-webkit-scrollbar {
+      display: none;
+    }
+    .bottom-slot {
+      position: relative;
+      height: 2.5rem;
+    }
+    .input-container {
+      --main: rgb(27, 27, 27);
+      color: var(--main);
+      position: absolute;
+      inset: auto 0 0 0;
+      display: flex;
+      padding: 10px;
+      padding-left: 25px;
+      background-color: #ffffff91;
+      border-radius: 500px;
+      backdrop-filter: blur(10px);
+    }
+    .input-container.error {
+      --main: rgb(255, 0, 76);
+      animation: shake 0.15s normal 3;
+    }
+    .input-container::before {
+      content: ">";
+      font-size: 2.3rem;
+      line-height: 100%;
+      margin-top: 0.5rem;
+      animation: hide 0.7s alternate infinite;
+    }
+    .main-input {
+      font-size: 1.8rem;
+      margin-left: 10px;
+      width: 0;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      color: inherit;
+      flex-grow: 1;
+    }
+    .main-input:disabled {
+      pointer-events: none;
+    }
+    .submit-button {
+      background-color: #ffffffa1;
+      border-radius: 100%;
+      height: 3.3rem;
+      width: 3.3rem;
+      color: inherit;
+      border: none;
+    }
+    .submit-button > i {
+      font-size: 1.6rem;
+    }
+    .submit-button:active {
+      color: rgb(131, 131, 131);
+    }
+    .msg-container {
+      margin-top: 60px;
+      margin-left: 30px;
+    }
+    .msg-container > p {
+      border-right: .15em solid white;
+      overflow-x: hidden;
+      white-space: nowrap;
+      font-size: 1.6rem;
+      width: 0;
+      margin: 2rem 0;
+      animation: type 2s forwards;
+    }
+    .final-msg-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      margin-top: 10rem;
+    }
+    .final-msg-container > p {
+      transition: opacity 1.5s linear;
+      opacity: 0;
+      font-size: 1.4rem;
+      margin: 1.2rem 24px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .fade-in {
+      opacity: 1 !important;
+    }
+    .fade-out {
+      animation: hide 1.5s forwards;
+    }
+    @keyframes hide {
+      100% { opacity: 0; display: none; }
+    }
+    @keyframes type {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes shake {
+      25% { transform: translate(-4px) }
+      75% { transform: translate(4px) }
+    }
+  </style>
 </head>
 <body>
-  <div class="background"></div>
-  <ul class="message-container"></ul>
-  <div class="final-container">
-    <p class="hidden">Em todo tempo e espaço</p>
-    <p class="hidden">Tudo que já foi ou que será</p>
-    <p class="hidden">Todos os planetas e galáxias</p>
-    <p class="hidden">Tive a sorte de encontrar você</p>
-    <p class="hidden">Feliz 2 anos meu amor ❤️</p>
+  <div class="page-background"></div>
+  <div class="page-container">
+    <div class="top-slot">
+      <div class="msg-container"></div>
+      <div class="final-msg-container">
+        <p>Em todo tempo e espaço</p>
+        <p>Tudo que já foi ou que será</p>
+        <p>Todos os planetas e galáxias</p>
+        <p>Tive a sorte de encontrar você</p>
+        <p>Feliz 2 anos meu amor <i class="fa-solid fa-heart"></i></p>
+      </div>
+    </div>
+    <div class="bottom-slot">
+      <form onsubmit="submitCode(event)">
+        <div class="input-container">
+          <input class="main-input" type="text">
+          <button class="submit-button">
+            <i class="fa-solid fa-arrow-right leading-icon"></i>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="input-container">
-    <div class="flex-c">
-      <input class="main-input" type="text" autocomplete="false">
-      <button type="button" onclick="submitCode()" class="submit-button">
-        <i class="fa-solid fa-arrow-right leading-icon"></i>
-      </button>
-    </di>
-  </div>
-  <script src="scripts.js"></script>
+  <script type="text/javascript">
+    const input = document.querySelector(".main-input");
+    const submitBtn = document.querySelector(".submit-button");
+    const inputContainer = document.querySelector(".input-container");
+    const messageContainer = document.querySelector(".msg-container");
+    const finalContainer = document.querySelector(".final-msg-container");
+    const messages = {
+      'amo': 'Eu te <strong>amo</strong>',
+      'feliz': 'Sou mais <strong>feliz</strong> contigo',
+      'lado': 'Quero estar sempre ao<br> seu <strong>lado</strong>',
+      'completa': 'Você me <strong>completa</strong>',
+      'entende': 'A gente se <strong>entende</strong>',
+      'divirto': 'Eu si <strong>divirto</strong> com você',
+      'feitos': 'Fomos <strong>feitos</strong> um<br> pro outro',
+      'perfeito': 'Você é <strong>perfeito</strong>',
+    }
+    submitBtn.addEventListener('mousedown', e => e.preventDefault());
+    function submitCode(e) {
+      e.preventDefault();
+      const key = input.value.trim().toLowerCase();
+      const value = messages[key];
+      if (!value) {
+        inputContainer.classList.add("error");
+        setTimeout(() => inputContainer.classList.remove("error"), 1000);
+      }
+      else {
+        showMessage(key, value);
+      }
+      input.value = '';
+    }
+    function showMessage(key, value) {
+      const el = document.createElement('p');
+      el.innerHTML = value;
+      messageContainer.insertBefore(el, messageContainer.firstChild);
+      delete messages[key];
+      if (Object.keys(messages).length <= 0) {
+        input.setAttribute('disabled', 'true');
+        setTimeout(() => messageContainer.classList.add('fade-out'), 2000);
+        setTimeout(() => showFinalMessage(0), 4000);
+      }
+    }
+    function showFinalMessage(index) {
+      finalContainer.children[index].classList.add('fade-in');
+      if (index < 4) {
+        setTimeout(() => showFinalMessage(++index), 2000);
+      }
+    }
+  </script>
 </body>
 </html>
